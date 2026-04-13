@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinCompare — Stock Metrics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #0d0f12;
+  --bg2: #13161b;
+  --bg3: #1a1e25;
+  --bg4: #20252e;
+  --border: #2a3040;
+  --text: #c8cdd8;
+  --text2: #7a8299;
+  --text3: #4a5268;
+  --orange: #f5a623;
+  --orange-bg: rgba(245,166,35,0.12);
+  --cyan: #00d4d4;
+  --cyan-bg: rgba(0,212,212,0.10);
+  --white-val: #e8eaf0;
+  --green: #2ecc71;
+  --section-head: #1c2130;
+  --header-bg: #0a0c10;
+  --col-head: #1e2535;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* ── TOP NAV ── */
+.topbar {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+.logo-x {
+  color: var(--orange);
+  font-size: 24px;
+  line-height: 1;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.05em;
+}
+.live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+  box-shadow: 0 0 6px var(--green);
+}
+
+/* ── MAIN LAYOUT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+
+/* ── COMPANY HEADER INPUTS ── */
+.co-header-row {
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+  gap: 0;
+  margin-bottom: 2px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+.col-spacer {
+  background: var(--header-bg);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+}
+.col-spacer-right {
+  background: var(--header-bg);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.col-head-cell {
+  background: var(--col-head);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--border);
+  position: relative;
+}
+.col-head-cell input.co-name {
+  background: transparent;
+  border: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  padding: 12px 8px;
+  outline: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.col-head-cell input.co-name:focus {
+  background: rgba(255,255,255,0.04);
+}
+.col-head-cell input.co-name::placeholder { color: var(--text3); }
+.col-head-cell.c0 input.co-name { color: var(--orange); }
+.col-head-cell.c1 input.co-name { color: var(--cyan); }
+.col-head-cell.c2 input.co-name { color: #fff; }
+.col-head-cell .col-underline {
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.col-head-cell.c0 .col-underline { background: var(--orange); }
+.col-head-cell.c1 .col-underline { background: var(--cyan); }
+.col-head-cell.c2 .col-underline { background: #fff; }
+
+.col-bench-head {
+  background: var(--col-head);
+  border-left: 1px solid var(--border);
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bench-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── INPUT PANEL ── */
+.input-panel {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.input-section-head {
+  background: var(--section-head);
+  padding: 7px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+}
+.input-row {
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+  border-top: 1px solid var(--border);
+}
+.input-row:hover { background: rgba(255,255,255,0.015); }
+.input-label {
+  background: var(--bg2);
+  padding: 7px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.input-cell {
+  background: var(--bg3);
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+}
+.input-cell input {
+  background: transparent;
+  border: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  width: 100%;
+  text-align: center;
+  outline: none;
+  padding: 5px 2px;
+}
+.input-cell input:focus { background: rgba(255,255,255,0.04); border-radius: 4px; }
+.input-cell.c0 input:focus { color: var(--orange); }
+.input-cell.c1 input:focus { color: var(--cyan); }
+.input-cell.c2 input:focus { color: #fff; }
+.input-bench {
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  padding: 7px 10px;
+  font-size: 11px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* ── METRICS TABLE ── */
+.metrics-wrap {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.metrics-section-head {
+  background: var(--section-head);
+  padding: 8px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.metrics-section-head .section-icon {
+  width: 3px;
+  height: 14px;
+  background: var(--orange);
+  border-radius: 2px;
+  display: inline-block;
+}
+.metrics-col-head {
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+  background: var(--col-head);
+  border-bottom: 1px solid var(--border);
+}
+.mch-spacer {
+  padding: 7px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.mch-co {
+  border-left: 1px solid var(--border);
+  padding: 7px 8px;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mch-co.c0 { color: var(--orange); }
+.mch-co.c1 { color: var(--cyan); }
+.mch-co.c2 { color: #fff; }
+.mch-bench {
+  border-left: 1px solid var(--border);
+  padding: 7px 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-transform: uppercase;
+}
+
+.metric-group {
+  border-bottom: 3px solid var(--border);
+}
+.metric-group:last-child { border-bottom: none; }
+
+.metric-row {
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+  border-bottom: 1px solid var(--border);
+}
+.metric-row:last-child { border-bottom: none; }
+.metric-row:hover .metric-label { color: #fff; }
+
+.metric-label {
+  background: var(--bg2);
+  padding: 9px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+.metric-val {
+  border-left: 1px solid var(--border);
+  padding: 9px 8px;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.metric-val.rank-1 { color: var(--orange); background: var(--orange-bg); }
+.metric-val.rank-2 { color: var(--cyan); background: var(--cyan-bg); }
+.metric-val.rank-3 { color: #7a8299; background: transparent; }
+.metric-val.rank-null { color: var(--text3); background: transparent; }
+
+.metric-bench {
+  border-left: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 9px 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.metric-group-label {
+  display: grid;
+  grid-template-columns: 220px repeat(3, 1fr) 220px;
+  background: #161a22;
+  border-bottom: 1px solid var(--border);
+}
+.metric-group-label-inner {
+  padding: 5px 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.group-accent { width: 12px; height: 2px; border-radius: 1px; background: var(--orange); display: inline-block; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 32px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .co-header-row,
+  .input-section-head,
+  .input-row,
+  .metrics-col-head,
+  .metric-row,
+  .metric-group-label {
+    grid-template-columns: 130px repeat(3, 1fr) 0px;
+  }
+  .col-bench-head,
+  .input-bench,
+  .mch-bench,
+  .metric-bench { display: none; }
+  .metric-label { font-size: 10px; padding: 8px 8px; }
+  .metric-val { font-size: 13px; }
+  .main { padding: 12px 8px 32px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Fin<span class="logo-x">&#10005;</span>Compare</div>
+  <div class="topbar-right">
+    <span class="live-dot"></span>
+    <span>Live Computed &mdash; No Data Stored</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Company name header -->
+  <div class="co-header-row" id="coHeaderRow">
+    <div class="col-spacer"></div>
+    <div class="col-head-cell c0">
+      <input class="co-name" data-ci="0" data-f="name" value="CRM" placeholder="TICKER">
+      <div class="col-underline"></div>
+    </div>
+    <div class="col-head-cell c1">
+      <input class="co-name" data-ci="1" data-f="name" value="ADBE" placeholder="TICKER">
+      <div class="col-underline"></div>
+    </div>
+    <div class="col-head-cell c2">
+      <input class="co-name" data-ci="2" data-f="name" value="NOW" placeholder="TICKER">
+      <div class="col-underline"></div>
+    </div>
+    <div class="col-bench-head"><div class="bench-logo">Benchmark</div></div>
+  </div>
+
+  <!-- Data input panel -->
+  <div class="input-panel" id="inputPanel"></div>
+
+  <!-- Metrics output -->
+  <div class="metrics-wrap" id="metricsWrap"></div>
+
+</div>
+
+<footer>FinCompare &mdash; All metrics computed locally &mdash; No data transmitted</footer>
+
+<script>
+const BENCHMARKS = {
+  ttmPE:     'Many stocks trade at 20–28',
+  fwdPE:     'Many stocks trade at 18–26',
+  fwd2PE:    'Many stocks trade at 18–24',
+  ttmEpsGrowth:  'Many stocks trade at 8–12%',
+  cyEpsGrowth:   'Many stocks trade at 8–12%',
+  nyEpsGrowth:   'Many stocks trade at 8–12%',
+  ttmRevGrowth:  'Many stocks trade at 4.5–6.5%',
+  cyRevGrowth:   'Many stocks trade at 4.5–6.5%',
+  nyRevGrowth:   'Many stocks trade at 4.5–6.5%',
+  grossMargin:   'Many stocks trade at 40–48%',
+  netMargin:     'Many stocks trade at 8–10%',
+  ttmPS:         'Many stocks trade at 1.8–2.6',
+  fwdPS:         'Many stocks trade at 1.8–2.6',
+};
+
+const INPUT_GROUPS = [
+  { label: 'Valuation inputs', fields: [
+    { key:'price',     label:'Stock price ($)',          step:'0.01' },
+    { key:'ttmEps',    label:'TTM EPS ($)',               step:'0.01' },
+    { key:'fwdEpsCY',  label:'Fwd EPS — current yr ($)', step:'0.01' },
+    { key:'fwdEpsNY',  label:'Fwd EPS — next yr ($)',    step:'0.01' },
+    { key:'prevEps',   label:'Prior year EPS ($)',        step:'0.01' },
+  ]},
+  { label: 'Revenue inputs', fields: [
+    { key:'prevRev',   label:'Prior year revenue ($M)' },
+    { key:'ttmRev',    label:'TTM revenue ($M)' },
+    { key:'cyRev',     label:'CY est. revenue ($M)' },
+    { key:'nyRev',     label:'NY est. revenue ($M)' },
+    { key:'mktCap',    label:'Market cap ($M)' },
+    { key:'fwdMktCap', label:'Fwd mkt cap for P/S ($M)' },
+  ]},
+  { label: 'Margin inputs', fields: [
+    { key:'grossProfit', label:'Gross profit ($M)' },
+    { key:'netIncome',   label:'Net income ($M)' },
+  ]},
+];
+
+const METRIC_GROUPS = [
+  { label: 'P/E Ratios', metrics: [
+    { key:'ttmPE',  label:'TTM PE',          fmt:'x1',  lower:true  },
+    { key:'fwdPE',  label:'Forward PE',       fmt:'x1',  lower:true  },
+    { key:'fwd2PE', label:'2 Year Forward PE',fmt:'x1',  lower:true  },
+  ]},
+  { label: 'EPS Growth', metrics: [
+    { key:'ttmEpsGrowth', label:'TTM EPS Growth',              fmt:'pct', lower:false },
+    { key:'cyEpsGrowth',  label:'Current Yr Exp EPS Growth',   fmt:'pct', lower:false },
+    { key:'nyEpsGrowth',  label:'Next Year EPS Growth',        fmt:'pct', lower:false },
+  ]},
+  { label: 'Revenue Growth', metrics: [
+    { key:'ttmRevGrowth', label:'TTM Revenue Growth',              fmt:'pct', lower:false },
+    { key:'cyRevGrowth',  label:'Current Yr Exp Rev Growth',       fmt:'pct', lower:false },
+    { key:'nyRevGrowth',  label:'Next Year Revenue Growth',        fmt:'pct', lower:false },
+  ]},
+  { label: 'Margins & Valuation', metrics: [
+    { key:'grossMargin', label:'Gross Margin',     fmt:'pct', lower:false },
+    { key:'netMargin',   label:'Net Margin',       fmt:'pct', lower:false },
+    { key:'ttmPS',       label:'TTM P/S Ratio',    fmt:'x2',  lower:true  },
+    { key:'fwdPS',       label:'Forward P/S Ratio',fmt:'x2',  lower:true  },
+  ]},
+];
+
+let cos = [
+  {name:'CRM',  price:230, ttmEps:10.50, fwdEpsCY:13.20, fwdEpsNY:17.50, prevEps:8.50,  prevRev:26490, ttmRev:34860, cyRev:37900, nyRev:41800, mktCap:222000, fwdMktCap:222000, grossProfit:26200, netIncome:6100},
+  {name:'ADBE', price:380, ttmEps:18.30, fwdEpsCY:20.40, fwdEpsNY:23.20, prevEps:15.80, prevRev:17610, ttmRev:19980, cyRev:21500, nyRev:23200, mktCap:167000, fwdMktCap:167000, grossProfit:17850, netIncome:5870},
+  {name:'NOW',  price:890, ttmEps:16.50, fwdEpsCY:21.30, fwdEpsNY:26.80, prevEps:10.20, prevRev:8970,  ttmRev:10980, cyRev:12400, nyRev:14200, mktCap:182000, fwdMktCap:182000, grossProfit:8920,  netIncome:2800},
+];
+
+function calc(c) {
+  const s = (a,b) => b&&b!==0 ? a/b : null;
+  const p = (a,b) => b&&b!==0 ? (a-b)/Math.abs(b)*100 : null;
+  return {
+    ttmPE:        s(c.price, c.ttmEps),
+    fwdPE:        s(c.price, c.fwdEpsCY),
+    fwd2PE:       s(c.price, c.fwdEpsNY),
+    ttmEpsGrowth: p(c.ttmEps, c.prevEps),
+    cyEpsGrowth:  p(c.fwdEpsCY, c.ttmEps),
+    nyEpsGrowth:  p(c.fwdEpsNY, c.fwdEpsCY),
+    ttmRevGrowth: p(c.ttmRev, c.prevRev),
+    cyRevGrowth:  p(c.cyRev, c.ttmRev),
+    nyRevGrowth:  p(c.nyRev, c.cyRev),
+    grossMargin:  s(c.grossProfit*100, c.ttmRev),
+    netMargin:    s(c.netIncome*100, c.ttmRev),
+    ttmPS:        s(c.mktCap, c.ttmRev),
+    fwdPS:        s(c.fwdMktCap, c.cyRev),
+  };
+}
+
+function fmtVal(v, fmt) {
+  if(v===null||!isFinite(v)) return '—';
+  if(fmt==='pct') return v.toFixed(2)+'%';
+  if(fmt==='x1')  return v.toFixed(2);
+  if(fmt==='x2')  return v.toFixed(2);
+  return v.toFixed(2);
+}
+
+function getRanks(vals, lower) {
+  // returns 1,2,3 rank for each index (1=best), nulls get rank-null
+  const indexed = vals.map((v,i)=>({v,i})).filter(x=>x.v!==null&&isFinite(x.v));
+  indexed.sort((a,b)=> lower ? a.v-b.v : b.v-a.v);
+  const ranks = vals.map(()=>null);
+  indexed.forEach((x,pos)=>{ ranks[x.i] = pos+1; });
+  return ranks;
+}
+
+function buildInputPanel() {
+  let html = '';
+  INPUT_GROUPS.forEach(g => {
+    html += `<div class="input-section-head"><span>${g.label}</span></div>`;
+    g.fields.forEach(f => {
+      html += `<div class="input-row">
+        <div class="input-label">${f.label}</div>
+        ${cos.map((c,ci)=>`<div class="input-cell c${ci}">
+          <input type="number" step="${f.step||'1'}" data-ci="${ci}" data-f="${f.key}" value="${c[f.key]}">
+        </div>`).join('')}
+        <div class="input-bench"></div>
+      </div>`;
+    });
+  });
+  document.getElementById('inputPanel').innerHTML = html;
+}
+
+function buildMetrics() {
+  const derived = cos.map(calc);
+  const names = cos.map(c=>c.name);
+
+  let html = `<div class="metrics-section-head"><span class="section-icon"></span>Mandatory Metrics</div>`;
+  html += `<div class="metrics-col-head">
+    <div class="mch-spacer">Metric</div>
+    ${cos.map((c,i)=>`<div class="mch-co c${i}" id="mch${i}">${c.name}</div>`).join('')}
+    <div class="mch-bench">Benchmark</div>
+  </div>`;
+
+  METRIC_GROUPS.forEach((grp, gi) => {
+    html += `<div class="metric-group">
+      <div class="metric-group-label">
+        <div class="metric-group-label-inner"><span class="group-accent"></span>${grp.label}</div>
+        ${cos.map(()=>'<div></div>').join('')}
+        <div></div>
+      </div>`;
+    grp.metrics.forEach(m => {
+      const vals = derived.map(d=>d[m.key]);
+      const ranks = getRanks(vals, m.lower!==false);
+      html += `<div class="metric-row">
+        <div class="metric-label">${m.label}</div>
+        ${vals.map((v,i)=>{
+          const r = ranks[i];
+          const cls = r===null ? 'rank-null' : `rank-${r}`;
+          return `<div class="metric-val ${cls}">${fmtVal(v,m.fmt)}</div>`;
+        }).join('')}
+        <div class="metric-bench">${BENCHMARKS[m.key]||''}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById('metricsWrap').innerHTML = html;
+}
+
+function updateColHeaders() {
+  cos.forEach((c,i)=>{
+    const el = document.getElementById(`mch${i}`);
+    if(el) el.textContent = c.name;
+  });
+}
+
+function render() {
+  buildMetrics();
+  updateColHeaders();
+}
+
+document.addEventListener('input', e => {
+  const el = e.target, ci = el.dataset.ci, f = el.dataset.f;
+  if(ci!==undefined && f) {
+    if(f==='name') {
+      cos[+ci].name = el.value;
+      // update co-header inputs too
+      document.querySelectorAll(`.co-name[data-ci="${ci}"]`).forEach(inp=>{ if(inp!==el) inp.value=el.value; });
+    } else {
+      cos[+ci][f] = parseFloat(el.value)||0;
+    }
+    render();
+  }
+});
+
+buildInputPanel();
+render();
+</script>
+</body>
+</html>
