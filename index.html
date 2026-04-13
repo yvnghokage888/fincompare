@@ -11,7 +11,6 @@
   --bg: #0d0f12;
   --bg2: #13161b;
   --bg3: #1a1e25;
-  --bg4: #20252e;
   --border: #2a3040;
   --text: #c8cdd8;
   --text2: #7a8299;
@@ -20,408 +19,117 @@
   --orange-bg: rgba(245,166,35,0.12);
   --cyan: #00d4d4;
   --cyan-bg: rgba(0,212,212,0.10);
-  --white-val: #e8eaf0;
   --green: #2ecc71;
+  --red: #e74c3c;
   --section-head: #1c2130;
   --header-bg: #0a0c10;
   --col-head: #1e2535;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;min-height:100vh}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* TOPBAR */
+.topbar{background:var(--header-bg);border-bottom:1px solid var(--border);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:.06em;color:#fff;display:flex;align-items:center;gap:6px;text-transform:uppercase}
+.logo-x{color:var(--orange);font-size:24px;line-height:1}
+.topbar-right{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--text3);font-family:'Barlow Condensed',sans-serif;letter-spacing:.05em}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px var(--green)}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Barlow', sans-serif;
-  font-size: 13px;
-  min-height: 100vh;
-}
+.main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
 
-/* ── TOP NAV ── */
-.topbar {
-  background: var(--header-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 0 20px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-}
-.logo {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
-}
-.logo-x {
-  color: var(--orange);
-  font-size: 24px;
-  line-height: 1;
-}
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 11px;
-  color: var(--text3);
-  font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.05em;
-}
-.live-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  display: inline-block;
-  box-shadow: 0 0 6px var(--green);
-}
+/* API KEY NOTICE */
+.api-notice{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:10px 16px;margin-bottom:16px;font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--orange);letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.api-notice span{flex:1;min-width:200px}
+.api-notice input{background:rgba(0,0,0,.3);border:1px solid rgba(245,166,35,.4);border-radius:5px;padding:5px 10px;font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--orange);width:260px;outline:none;letter-spacing:.06em}
+.api-notice input::placeholder{color:rgba(245,166,35,.35)}
+.api-notice input:focus{border-color:var(--orange)}
+.api-key-ok{color:var(--green);font-size:11px;margin-left:8px;display:none}
 
-/* ── MAIN LAYOUT ── */
-.main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+/* CO HEADER */
+.co-header-row{display:grid;grid-template-columns:220px repeat(3,1fr) 220px;margin-bottom:2px;border-radius:8px 8px 0 0;overflow:hidden;border:1px solid var(--border);border-bottom:none}
+.col-spacer{background:var(--header-bg);padding:10px 14px;display:flex;align-items:center}
+.col-head-cell{background:var(--col-head);display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--border);position:relative;min-height:72px}
+.ticker-input-wrap{width:100%;display:flex;flex-direction:column;align-items:center;padding:8px 8px 6px}
+.co-ticker{background:transparent;border:none;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;text-align:center;width:100%;outline:none;letter-spacing:.1em;text-transform:uppercase;padding:4px}
+.co-ticker::placeholder{color:var(--text3);font-weight:400;letter-spacing:.04em;font-size:14px}
+.col-head-cell.c0 .co-ticker{color:var(--orange)}
+.col-head-cell.c1 .co-ticker{color:var(--cyan)}
+.col-head-cell.c2 .co-ticker{color:#fff}
+.co-ticker:focus{background:rgba(255,255,255,.04);border-radius:4px}
+.ticker-hint{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.05em;color:var(--text3);margin-top:1px;height:14px;text-align:center}
+.ticker-hint.loading{color:var(--cyan)}
+.ticker-hint.error{color:var(--red)}
+.ticker-hint.ok{color:var(--green)}
+.fetch-btn{background:transparent;border:1px solid var(--border);border-radius:4px;padding:3px 10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);cursor:pointer;margin-top:4px;transition:all .15s}
+.fetch-btn:hover{border-color:var(--orange);color:var(--orange)}
+.fetch-btn.loading{opacity:.5;pointer-events:none}
+.col-underline{height:2px;width:100%;position:absolute;bottom:0}
+.col-head-cell.c0 .col-underline{background:var(--orange)}
+.col-head-cell.c1 .col-underline{background:var(--cyan)}
+.col-head-cell.c2 .col-underline{background:#fff}
+.col-bench-head{background:var(--col-head);border-left:1px solid var(--border);padding:12px 10px;display:flex;align-items:center;justify-content:center}
+.bench-logo{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase}
 
-/* ── COMPANY HEADER INPUTS ── */
-.co-header-row {
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-  gap: 0;
-  margin-bottom: 2px;
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-bottom: none;
-}
-.col-spacer {
-  background: var(--header-bg);
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-}
-.col-spacer-right {
-  background: var(--header-bg);
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.col-head-cell {
-  background: var(--col-head);
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid var(--border);
-  position: relative;
-}
-.col-head-cell input.co-name {
-  background: transparent;
-  border: none;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  width: 100%;
-  padding: 12px 8px;
-  outline: none;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.col-head-cell input.co-name:focus {
-  background: rgba(255,255,255,0.04);
-}
-.col-head-cell input.co-name::placeholder { color: var(--text3); }
-.col-head-cell.c0 input.co-name { color: var(--orange); }
-.col-head-cell.c1 input.co-name { color: var(--cyan); }
-.col-head-cell.c2 input.co-name { color: #fff; }
-.col-head-cell .col-underline {
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-.col-head-cell.c0 .col-underline { background: var(--orange); }
-.col-head-cell.c1 .col-underline { background: var(--cyan); }
-.col-head-cell.c2 .col-underline { background: #fff; }
+/* INPUT PANEL */
+.input-panel{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;margin-bottom:20px}
+.input-section-head{background:var(--section-head);padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);border-top:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.src-badge{font-size:9px;padding:1px 5px;border-radius:3px;letter-spacing:.05em;font-weight:600}
+.src-yahoo{background:rgba(147,112,219,.2);color:#9b7fe8}
+.src-fmp{background:rgba(0,212,212,.15);color:var(--cyan)}
+.input-row{display:grid;grid-template-columns:220px repeat(3,1fr) 220px;border-top:1px solid var(--border)}
+.input-row:hover{background:rgba(255,255,255,.012)}
+.input-label{background:var(--bg2);padding:6px 14px;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.03em;text-transform:uppercase;font-weight:500}
+.input-cell{background:var(--bg3);border-left:1px solid var(--border);display:flex;align-items:center;justify-content:center;padding:1px 4px;position:relative}
+.input-cell input{background:transparent;border:none;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;width:100%;text-align:center;outline:none;padding:5px 2px}
+.input-cell.c0 input{color:rgba(245,166,35,.9)}
+.input-cell.c1 input{color:rgba(0,212,212,.9)}
+.input-cell.c2 input{color:rgba(220,222,228,.9)}
+.input-cell input:focus{background:rgba(255,255,255,.04);border-radius:3px}
+.input-cell .spinner{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:10px;height:10px;border:1.5px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite;display:none}
+.input-cell.fetching .spinner{display:block}
+.input-bench{background:var(--bg2);border-left:1px solid var(--border);padding:6px 10px;font-size:10px;color:var(--text3);display:flex;align-items:center;justify-content:flex-end;font-family:'Barlow Condensed',sans-serif}
 
-.col-bench-head {
-  background: var(--col-head);
-  border-left: 1px solid var(--border);
-  padding: 12px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.bench-logo {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text3);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+/* METRICS */
+.metrics-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.metrics-section-head{background:var(--section-head);padding:8px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.section-icon{width:3px;height:14px;background:var(--orange);border-radius:2px;display:inline-block}
+.metrics-col-head{display:grid;grid-template-columns:220px repeat(3,1fr) 220px;background:var(--col-head);border-bottom:1px solid var(--border)}
+.mch-spacer{padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.mch-co{border-left:1px solid var(--border);padding:7px 8px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.mch-co.c0{color:var(--orange)}.mch-co.c1{color:var(--cyan)}.mch-co.c2{color:#fff}
+.mch-bench{border-left:1px solid var(--border);padding:7px 10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.06em;color:var(--text3);display:flex;align-items:center;justify-content:flex-end;text-transform:uppercase}
+.metric-group{border-bottom:3px solid var(--border)}
+.metric-group:last-child{border-bottom:none}
+.metric-group-label{display:grid;grid-template-columns:220px repeat(3,1fr) 220px;background:#161a22;border-bottom:1px solid var(--border)}
+.metric-group-label-inner{padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);display:flex;align-items:center;gap:6px}
+.group-accent{width:12px;height:2px;border-radius:1px;background:var(--orange);display:inline-block}
+.metric-row{display:grid;grid-template-columns:220px repeat(3,1fr) 220px;border-bottom:1px solid var(--border)}
+.metric-row:last-child{border-bottom:none}
+.metric-row:hover .metric-label{color:#fff}
+.metric-label{background:var(--bg2);padding:9px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;transition:color .15s}
+.metric-val{border-left:1px solid var(--border);padding:9px 8px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;justify-content:center}
+.metric-val.rank-1{color:var(--orange);background:var(--orange-bg)}
+.metric-val.rank-2{color:var(--cyan);background:var(--cyan-bg)}
+.metric-val.rank-3{color:#7a8299;background:transparent}
+.metric-val.rank-null{color:var(--text3);background:transparent}
+.metric-val .val-spinner{width:12px;height:12px;border:1.5px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin .7s linear infinite}
+.metric-bench{border-left:1px solid var(--border);background:var(--bg2);padding:9px 10px;font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text3);display:flex;align-items:center;justify-content:flex-end;text-align:right;line-height:1.3;letter-spacing:.02em}
 
-/* ── INPUT PANEL ── */
-.input-panel {
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.input-section-head {
-  background: var(--section-head);
-  padding: 7px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text3);
-  border-top: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-}
-.input-row {
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-  border-top: 1px solid var(--border);
-}
-.input-row:hover { background: rgba(255,255,255,0.015); }
-.input-label {
-  background: var(--bg2);
-  padding: 7px 14px;
-  font-size: 12px;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.input-cell {
-  background: var(--bg3);
-  border-left: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 6px;
-}
-.input-cell input {
-  background: transparent;
-  border: none;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  width: 100%;
-  text-align: center;
-  outline: none;
-  padding: 5px 2px;
-}
-.input-cell input:focus { background: rgba(255,255,255,0.04); border-radius: 4px; }
-.input-cell.c0 input:focus { color: var(--orange); }
-.input-cell.c1 input:focus { color: var(--cyan); }
-.input-cell.c2 input:focus { color: #fff; }
-.input-bench {
-  background: var(--bg2);
-  border-left: 1px solid var(--border);
-  padding: 7px 10px;
-  font-size: 11px;
-  color: var(--text3);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.02em;
-}
+/* DATA SOURCE LEGEND */
+.source-legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text3);letter-spacing:.04em}
+.source-legend span{display:flex;align-items:center;gap:5px}
 
-/* ── METRICS TABLE ── */
-.metrics-wrap {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.metrics-section-head {
-  background: var(--section-head);
-  padding: 8px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.metrics-section-head .section-icon {
-  width: 3px;
-  height: 14px;
-  background: var(--orange);
-  border-radius: 2px;
-  display: inline-block;
-}
-.metrics-col-head {
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-  background: var(--col-head);
-  border-bottom: 1px solid var(--border);
-}
-.mch-spacer {
-  padding: 7px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text3);
-}
-.mch-co {
-  border-left: 1px solid var(--border);
-  padding: 7px 8px;
-  text-align: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.mch-co.c0 { color: var(--orange); }
-.mch-co.c1 { color: var(--cyan); }
-.mch-co.c2 { color: #fff; }
-.mch-bench {
-  border-left: 1px solid var(--border);
-  padding: 7px 10px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: var(--text3);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  text-transform: uppercase;
-}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-.metric-group {
-  border-bottom: 3px solid var(--border);
-}
-.metric-group:last-child { border-bottom: none; }
+footer{border-top:1px solid var(--border);padding:16px 20px;text-align:center;font-size:11px;color:var(--text3);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-top:32px}
 
-.metric-row {
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-  border-bottom: 1px solid var(--border);
-}
-.metric-row:last-child { border-bottom: none; }
-.metric-row:hover .metric-label { color: #fff; }
-
-.metric-label {
-  background: var(--bg2);
-  padding: 9px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  transition: color 0.15s;
-}
-.metric-val {
-  border-left: 1px solid var(--border);
-  padding: 9px 8px;
-  text-align: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-}
-.metric-val.rank-1 { color: var(--orange); background: var(--orange-bg); }
-.metric-val.rank-2 { color: var(--cyan); background: var(--cyan-bg); }
-.metric-val.rank-3 { color: #7a8299; background: transparent; }
-.metric-val.rank-null { color: var(--text3); background: transparent; }
-
-.metric-bench {
-  border-left: 1px solid var(--border);
-  background: var(--bg2);
-  padding: 9px 10px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  color: var(--text3);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: right;
-  line-height: 1.3;
-  letter-spacing: 0.02em;
-}
-
-.metric-group-label {
-  display: grid;
-  grid-template-columns: 220px repeat(3, 1fr) 220px;
-  background: #161a22;
-  border-bottom: 1px solid var(--border);
-}
-.metric-group-label-inner {
-  padding: 5px 14px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.group-accent { width: 12px; height: 2px; border-radius: 1px; background: var(--orange); display: inline-block; }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 16px 20px;
-  text-align: center;
-  font-size: 11px;
-  color: var(--text3);
-  font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-top: 32px;
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .co-header-row,
-  .input-section-head,
-  .input-row,
-  .metrics-col-head,
-  .metric-row,
-  .metric-group-label {
-    grid-template-columns: 130px repeat(3, 1fr) 0px;
-  }
-  .col-bench-head,
-  .input-bench,
-  .mch-bench,
-  .metric-bench { display: none; }
-  .metric-label { font-size: 10px; padding: 8px 8px; }
-  .metric-val { font-size: 13px; }
-  .main { padding: 12px 8px 32px; }
+@media(max-width:768px){
+  .co-header-row,.input-row,.metrics-col-head,.metric-row,.metric-group-label{grid-template-columns:110px repeat(3,1fr) 0px}
+  .input-section-head{grid-template-columns:110px repeat(3,1fr) 0px}
+  .col-bench-head,.input-bench,.mch-bench,.metric-bench{display:none}
+  .metric-label,.input-label{font-size:10px;padding:7px 6px}
+  .metric-val{font-size:12px}
+  .main{padding:12px 8px 32px}
 }
 </style>
 </head>
@@ -431,228 +139,405 @@ footer {
   <div class="logo">Fin<span class="logo-x">&#10005;</span>Compare</div>
   <div class="topbar-right">
     <span class="live-dot"></span>
-    <span>Live Computed &mdash; No Data Stored</span>
+    <span>Yahoo Finance + FMP</span>
   </div>
 </div>
 
 <div class="main">
 
-  <!-- Company name header -->
-  <div class="co-header-row" id="coHeaderRow">
+  <!-- API Key -->
+  <div class="api-notice" id="apiNotice">
+    <span>Enter your FMP API key to enable forward estimates (CY/NY EPS, revenue, forward P/E):</span>
+    <input type="text" id="fmpKeyInput" placeholder="Paste FMP API key here…" spellcheck="false" autocomplete="off">
+    <span class="api-key-ok" id="apiKeyOk">&#10003; Key saved</span>
+  </div>
+
+  <!-- Source legend -->
+  <div class="source-legend">
+    <span><span class="src-badge src-yahoo">Yahoo</span> Real-time price, TTM data, margins</span>
+    <span><span class="src-badge src-fmp">FMP</span> Forward estimates, prior year figures</span>
+  </div>
+
+  <!-- Company headers -->
+  <div class="co-header-row">
     <div class="col-spacer"></div>
     <div class="col-head-cell c0">
-      <input class="co-name" data-ci="0" data-f="name" value="CRM" placeholder="TICKER">
+      <div class="ticker-input-wrap">
+        <input class="co-ticker" id="ticker0" data-ci="0" placeholder="Type ticker…" maxlength="10" autocomplete="off" spellcheck="false">
+        <div class="ticker-hint" id="hint0">Enter ticker &amp; press Enter</div>
+        <button class="fetch-btn" id="fetchBtn0" data-ci="0">Fetch</button>
+      </div>
       <div class="col-underline"></div>
     </div>
     <div class="col-head-cell c1">
-      <input class="co-name" data-ci="1" data-f="name" value="ADBE" placeholder="TICKER">
+      <div class="ticker-input-wrap">
+        <input class="co-ticker" id="ticker1" data-ci="1" placeholder="Type ticker…" maxlength="10" autocomplete="off" spellcheck="false">
+        <div class="ticker-hint" id="hint1">Enter ticker &amp; press Enter</div>
+        <button class="fetch-btn" id="fetchBtn1" data-ci="1">Fetch</button>
+      </div>
       <div class="col-underline"></div>
     </div>
     <div class="col-head-cell c2">
-      <input class="co-name" data-ci="2" data-f="name" value="NOW" placeholder="TICKER">
+      <div class="ticker-input-wrap">
+        <input class="co-ticker" id="ticker2" data-ci="2" placeholder="Type ticker…" maxlength="10" autocomplete="off" spellcheck="false">
+        <div class="ticker-hint" id="hint2">Enter ticker &amp; press Enter</div>
+        <button class="fetch-btn" id="fetchBtn2" data-ci="2">Fetch</button>
+      </div>
       <div class="col-underline"></div>
     </div>
     <div class="col-bench-head"><div class="bench-logo">Benchmark</div></div>
   </div>
 
-  <!-- Data input panel -->
+  <!-- Manual input panel -->
   <div class="input-panel" id="inputPanel"></div>
 
-  <!-- Metrics output -->
+  <!-- Computed metrics -->
   <div class="metrics-wrap" id="metricsWrap"></div>
 
 </div>
 
-<footer>FinCompare &mdash; All metrics computed locally &mdash; No data transmitted</footer>
+<footer>FinCompare &mdash; Data: Yahoo Finance (TTM) + Financial Modeling Prep (Estimates) &mdash; For informational use only</footer>
 
 <script>
+/* ─────────────────────────────────────────────
+   CONFIG  ← replace with your real key, or
+   leave as-is and enter it in the UI at runtime
+   ───────────────────────────────────────────── */
+let FMP_KEY = 'YOUR_FMP_API_KEY';
+
+/* ─────────────────────────────────────────────
+   STATE
+   ───────────────────────────────────────────── */
+const EMPTY = () => ({
+  name:'', price:null, ttmEps:null, fwdEpsCY:null, fwdEpsNY:null, prevEps:null,
+  prevRev:null, ttmRev:null, cyRev:null, nyRev:null,
+  mktCap:null, fwdMktCap:null, grossProfit:null, netIncome:null
+});
+let cos      = [EMPTY(), EMPTY(), EMPTY()];
+let fetching = [false, false, false];
+
+/* ─────────────────────────────────────────────
+   DEFINITIONS
+   ───────────────────────────────────────────── */
 const BENCHMARKS = {
-  ttmPE:     'Many stocks trade at 20–28',
-  fwdPE:     'Many stocks trade at 18–26',
-  fwd2PE:    'Many stocks trade at 18–24',
-  ttmEpsGrowth:  'Many stocks trade at 8–12%',
-  cyEpsGrowth:   'Many stocks trade at 8–12%',
-  nyEpsGrowth:   'Many stocks trade at 8–12%',
-  ttmRevGrowth:  'Many stocks trade at 4.5–6.5%',
-  cyRevGrowth:   'Many stocks trade at 4.5–6.5%',
-  nyRevGrowth:   'Many stocks trade at 4.5–6.5%',
-  grossMargin:   'Many stocks trade at 40–48%',
-  netMargin:     'Many stocks trade at 8–10%',
-  ttmPS:         'Many stocks trade at 1.8–2.6',
-  fwdPS:         'Many stocks trade at 1.8–2.6',
+  ttmPE:'Many stocks trade at 20–28', fwdPE:'Many stocks trade at 18–26',
+  fwd2PE:'Many stocks trade at 18–24', ttmEpsGrowth:'Many stocks trade at 8–12%',
+  cyEpsGrowth:'Many stocks trade at 8–12%', nyEpsGrowth:'Many stocks trade at 8–12%',
+  ttmRevGrowth:'Many stocks trade at 4.5–6.5%', cyRevGrowth:'Many stocks trade at 4.5–6.5%',
+  nyRevGrowth:'Many stocks trade at 4.5–6.5%', grossMargin:'Many stocks trade at 40–48%',
+  netMargin:'Many stocks trade at 8–10%', ttmPS:'Many stocks trade at 1.8–2.6',
+  fwdPS:'Many stocks trade at 1.8–2.6'
 };
 
 const INPUT_GROUPS = [
-  { label: 'Valuation inputs', fields: [
-    { key:'price',     label:'Stock price ($)',          step:'0.01' },
-    { key:'ttmEps',    label:'TTM EPS ($)',               step:'0.01' },
-    { key:'fwdEpsCY',  label:'Fwd EPS — current yr ($)', step:'0.01' },
-    { key:'fwdEpsNY',  label:'Fwd EPS — next yr ($)',    step:'0.01' },
-    { key:'prevEps',   label:'Prior year EPS ($)',        step:'0.01' },
+  { label:'Valuation inputs', fields:[
+    {key:'price',    label:'Stock price ($)',          step:'0.01', src:'yahoo'},
+    {key:'ttmEps',   label:'TTM EPS ($)',               step:'0.01', src:'yahoo'},
+    {key:'fwdEpsCY', label:'Fwd EPS — current yr ($)', step:'0.01', src:'fmp'},
+    {key:'fwdEpsNY', label:'Fwd EPS — next yr ($)',    step:'0.01', src:'fmp'},
+    {key:'prevEps',  label:'Prior year EPS ($)',        step:'0.01', src:'fmp'},
   ]},
-  { label: 'Revenue inputs', fields: [
-    { key:'prevRev',   label:'Prior year revenue ($M)' },
-    { key:'ttmRev',    label:'TTM revenue ($M)' },
-    { key:'cyRev',     label:'CY est. revenue ($M)' },
-    { key:'nyRev',     label:'NY est. revenue ($M)' },
-    { key:'mktCap',    label:'Market cap ($M)' },
-    { key:'fwdMktCap', label:'Fwd mkt cap for P/S ($M)' },
+  { label:'Revenue inputs', fields:[
+    {key:'prevRev',   label:'Prior year revenue ($M)', src:'fmp'},
+    {key:'ttmRev',    label:'TTM revenue ($M)',         src:'yahoo'},
+    {key:'cyRev',     label:'CY est. revenue ($M)',     src:'fmp'},
+    {key:'nyRev',     label:'NY est. revenue ($M)',     src:'fmp'},
+    {key:'mktCap',    label:'Market cap ($M)',           src:'yahoo'},
+    {key:'fwdMktCap', label:'Fwd mkt cap for P/S ($M)', src:'yahoo'},
   ]},
-  { label: 'Margin inputs', fields: [
-    { key:'grossProfit', label:'Gross profit ($M)' },
-    { key:'netIncome',   label:'Net income ($M)' },
+  { label:'Margin inputs', fields:[
+    {key:'grossProfit', label:'Gross profit ($M)', src:'yahoo'},
+    {key:'netIncome',   label:'Net income ($M)',   src:'yahoo'},
   ]},
 ];
 
 const METRIC_GROUPS = [
-  { label: 'P/E Ratios', metrics: [
-    { key:'ttmPE',  label:'TTM PE',          fmt:'x1',  lower:true  },
-    { key:'fwdPE',  label:'Forward PE',       fmt:'x1',  lower:true  },
-    { key:'fwd2PE', label:'2 Year Forward PE',fmt:'x1',  lower:true  },
+  { label:'P/E Ratios', metrics:[
+    {key:'ttmPE',  label:'TTM PE',           fmt:'x', lower:true},
+    {key:'fwdPE',  label:'Forward PE',        fmt:'x', lower:true},
+    {key:'fwd2PE', label:'2 Year Forward PE', fmt:'x', lower:true},
   ]},
-  { label: 'EPS Growth', metrics: [
-    { key:'ttmEpsGrowth', label:'TTM EPS Growth',              fmt:'pct', lower:false },
-    { key:'cyEpsGrowth',  label:'Current Yr Exp EPS Growth',   fmt:'pct', lower:false },
-    { key:'nyEpsGrowth',  label:'Next Year EPS Growth',        fmt:'pct', lower:false },
+  { label:'EPS Growth', metrics:[
+    {key:'ttmEpsGrowth', label:'TTM EPS Growth',            fmt:'pct', lower:false},
+    {key:'cyEpsGrowth',  label:'Current Yr Exp EPS Growth', fmt:'pct', lower:false},
+    {key:'nyEpsGrowth',  label:'Next Year EPS Growth',      fmt:'pct', lower:false},
   ]},
-  { label: 'Revenue Growth', metrics: [
-    { key:'ttmRevGrowth', label:'TTM Revenue Growth',              fmt:'pct', lower:false },
-    { key:'cyRevGrowth',  label:'Current Yr Exp Rev Growth',       fmt:'pct', lower:false },
-    { key:'nyRevGrowth',  label:'Next Year Revenue Growth',        fmt:'pct', lower:false },
+  { label:'Revenue Growth', metrics:[
+    {key:'ttmRevGrowth', label:'TTM Revenue Growth',        fmt:'pct', lower:false},
+    {key:'cyRevGrowth',  label:'Current Yr Exp Rev Growth', fmt:'pct', lower:false},
+    {key:'nyRevGrowth',  label:'Next Year Revenue Growth',  fmt:'pct', lower:false},
   ]},
-  { label: 'Margins & Valuation', metrics: [
-    { key:'grossMargin', label:'Gross Margin',     fmt:'pct', lower:false },
-    { key:'netMargin',   label:'Net Margin',       fmt:'pct', lower:false },
-    { key:'ttmPS',       label:'TTM P/S Ratio',    fmt:'x2',  lower:true  },
-    { key:'fwdPS',       label:'Forward P/S Ratio',fmt:'x2',  lower:true  },
+  { label:'Margins & P/S', metrics:[
+    {key:'grossMargin', label:'Gross Margin',      fmt:'pct', lower:false},
+    {key:'netMargin',   label:'Net Margin',        fmt:'pct', lower:false},
+    {key:'ttmPS',       label:'TTM P/S Ratio',     fmt:'x',   lower:true},
+    {key:'fwdPS',       label:'Forward P/S Ratio', fmt:'x',   lower:true},
   ]},
 ];
 
-let cos = [
-  {name:'CRM',  price:230, ttmEps:10.50, fwdEpsCY:13.20, fwdEpsNY:17.50, prevEps:8.50,  prevRev:26490, ttmRev:34860, cyRev:37900, nyRev:41800, mktCap:222000, fwdMktCap:222000, grossProfit:26200, netIncome:6100},
-  {name:'ADBE', price:380, ttmEps:18.30, fwdEpsCY:20.40, fwdEpsNY:23.20, prevEps:15.80, prevRev:17610, ttmRev:19980, cyRev:21500, nyRev:23200, mktCap:167000, fwdMktCap:167000, grossProfit:17850, netIncome:5870},
-  {name:'NOW',  price:890, ttmEps:16.50, fwdEpsCY:21.30, fwdEpsNY:26.80, prevEps:10.20, prevRev:8970,  ttmRev:10980, cyRev:12400, nyRev:14200, mktCap:182000, fwdMktCap:182000, grossProfit:8920,  netIncome:2800},
-];
-
-function calc(c) {
-  const s = (a,b) => b&&b!==0 ? a/b : null;
-  const p = (a,b) => b&&b!==0 ? (a-b)/Math.abs(b)*100 : null;
-  return {
-    ttmPE:        s(c.price, c.ttmEps),
-    fwdPE:        s(c.price, c.fwdEpsCY),
-    fwd2PE:       s(c.price, c.fwdEpsNY),
-    ttmEpsGrowth: p(c.ttmEps, c.prevEps),
-    cyEpsGrowth:  p(c.fwdEpsCY, c.ttmEps),
-    nyEpsGrowth:  p(c.fwdEpsNY, c.fwdEpsCY),
-    ttmRevGrowth: p(c.ttmRev, c.prevRev),
-    cyRevGrowth:  p(c.cyRev, c.ttmRev),
-    nyRevGrowth:  p(c.nyRev, c.cyRev),
-    grossMargin:  s(c.grossProfit*100, c.ttmRev),
-    netMargin:    s(c.netIncome*100, c.ttmRev),
-    ttmPS:        s(c.mktCap, c.ttmRev),
-    fwdPS:        s(c.fwdMktCap, c.cyRev),
+/* ─────────────────────────────────────────────
+   CALCULATIONS
+   ───────────────────────────────────────────── */
+function calc(c){
+  const s=(a,b)=>(a!=null&&b!=null&&b!==0)?a/b:null;
+  const p=(a,b)=>(a!=null&&b!=null&&b!==0)?(a-b)/Math.abs(b)*100:null;
+  return{
+    ttmPE:       s(c.price,c.ttmEps),
+    fwdPE:       s(c.price,c.fwdEpsCY),
+    fwd2PE:      s(c.price,c.fwdEpsNY),
+    ttmEpsGrowth:p(c.ttmEps,c.prevEps),
+    cyEpsGrowth: p(c.fwdEpsCY,c.ttmEps),
+    nyEpsGrowth: p(c.fwdEpsNY,c.fwdEpsCY),
+    ttmRevGrowth:p(c.ttmRev,c.prevRev),
+    cyRevGrowth: p(c.cyRev,c.ttmRev),
+    nyRevGrowth: p(c.nyRev,c.cyRev),
+    grossMargin: s(c.grossProfit!=null?c.grossProfit*100:null,c.ttmRev),
+    netMargin:   s(c.netIncome!=null?c.netIncome*100:null,c.ttmRev),
+    ttmPS:       s(c.mktCap,c.ttmRev),
+    fwdPS:       s(c.fwdMktCap,c.cyRev),
   };
 }
 
-function fmtVal(v, fmt) {
-  if(v===null||!isFinite(v)) return '—';
-  if(fmt==='pct') return v.toFixed(2)+'%';
-  if(fmt==='x1')  return v.toFixed(2);
-  if(fmt==='x2')  return v.toFixed(2);
-  return v.toFixed(2);
+/* ─────────────────────────────────────────────
+   FETCHING
+   ───────────────────────────────────────────── */
+async function fetchYahoo(ticker){
+  const modules='financialData,defaultKeyStatistics,summaryDetail,incomeStatementHistory';
+  const yUrl=`https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}?modules=${modules}`;
+  const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(yUrl)}`;
+  const res=await fetch(proxy,{signal:AbortSignal.timeout(12000)});
+  if(!res.ok) throw new Error('Proxy error '+res.status);
+  const outer=await res.json();
+  if(!outer.contents) throw new Error('Empty proxy response');
+  const parsed=JSON.parse(outer.contents);
+  if(parsed.quoteSummary?.error) throw new Error(parsed.quoteSummary.error.description||'Yahoo error');
+  const r=parsed.quoteSummary.result[0];
+  const fd=r.financialData||{};
+  const ks=r.defaultKeyStatistics||{};
+  const sd=r.summaryDetail||{};
+  const is=r.incomeStatementHistory?.incomeStatementHistory||[];
+  const gv=o=>o?.raw??null;
+  const ttmRev   =gv(fd.totalRevenue)?gv(fd.totalRevenue)/1e6:null;
+  const mktCap   =gv(sd.marketCap)?gv(sd.marketCap)/1e6:null;
+  const ttmEps   =gv(ks.trailingEps);
+  const price    =gv(fd.currentPrice)||gv(sd.regularMarketPrice);
+  let grossProfit=null,netIncome=null,prevRev=null;
+  if(is[0]){
+    grossProfit=gv(is[0].grossProfit)?gv(is[0].grossProfit)/1e6:null;
+    netIncome  =gv(is[0].netIncome)?gv(is[0].netIncome)/1e6:null;
+  }
+  if(is[1]) prevRev=gv(is[1].totalRevenue)?gv(is[1].totalRevenue)/1e6:null;
+  return{price,ttmEps,ttmRev,mktCap,fwdMktCap:mktCap,grossProfit,netIncome,prevRev};
 }
 
-function getRanks(vals, lower) {
-  // returns 1,2,3 rank for each index (1=best), nulls get rank-null
-  const indexed = vals.map((v,i)=>({v,i})).filter(x=>x.v!==null&&isFinite(x.v));
-  indexed.sort((a,b)=> lower ? a.v-b.v : b.v-a.v);
-  const ranks = vals.map(()=>null);
-  indexed.forEach((x,pos)=>{ ranks[x.i] = pos+1; });
-  return ranks;
+async function fetchFMP(ticker){
+  if(!FMP_KEY||FMP_KEY==='YOUR_FMP_API_KEY') throw new Error('no-key');
+  const base='https://financialmodelingprep.com/api/v3';
+  const [estRes,epsRes]=await Promise.all([
+    fetch(`${base}/analyst-estimates/${ticker}?limit=4&apikey=${FMP_KEY}`,{signal:AbortSignal.timeout(10000)}),
+    fetch(`${base}/historical/earning_calendar/${ticker}?limit=10&apikey=${FMP_KEY}`,{signal:AbortSignal.timeout(10000)})
+  ]);
+  const estimates =await estRes.json();
+  const epsHistory=await epsRes.json();
+  if(!Array.isArray(estimates)||estimates.length===0) throw new Error('No FMP estimates for '+ticker);
+  const cy=estimates[0]||{};
+  const ny=estimates[1]||{};
+  const fwdEpsCY=cy.estimatedEpsAvg||null;
+  const fwdEpsNY=ny.estimatedEpsAvg||null;
+  const cyRev=cy.estimatedRevenueAvg?cy.estimatedRevenueAvg/1e6:null;
+  const nyRev=ny.estimatedRevenueAvg?ny.estimatedRevenueAvg/1e6:null;
+  let prevEps=null;
+  if(Array.isArray(epsHistory)&&epsHistory.length>=8){
+    const older=epsHistory.slice(4,8);
+    prevEps=older.reduce((s,e)=>s+(e.eps||0),0);
+  } else if(Array.isArray(epsHistory)&&epsHistory.length>0){
+    prevEps=epsHistory[epsHistory.length-1]?.eps||null;
+  }
+  return{fwdEpsCY,fwdEpsNY,cyRev,nyRev,prevEps};
 }
 
-function buildInputPanel() {
-  let html = '';
-  INPUT_GROUPS.forEach(g => {
-    html += `<div class="input-section-head"><span>${g.label}</span></div>`;
-    g.fields.forEach(f => {
-      html += `<div class="input-row">
-        <div class="input-label">${f.label}</div>
-        ${cos.map((c,ci)=>`<div class="input-cell c${ci}">
-          <input type="number" step="${f.step||'1'}" data-ci="${ci}" data-f="${f.key}" value="${c[f.key]}">
-        </div>`).join('')}
+async function doFetch(ci,ticker){
+  ticker=ticker.trim().toUpperCase();
+  if(!ticker) return;
+  fetching[ci]=true;
+  cos[ci]={...EMPTY(),name:ticker};
+  setHint(ci,'loading','Connecting to Yahoo Finance…');
+  setBtnState(ci,true);
+  buildInputPanel();
+  buildMetrics();
+
+  // Yahoo
+  let yahooOk=false;
+  try{
+    const y=await fetchYahoo(ticker);
+    Object.assign(cos[ci],y);
+    yahooOk=true;
+    setHint(ci,'loading','Yahoo OK — fetching FMP estimates…');
+    buildInputPanel();
+    buildMetrics();
+  }catch(e){
+    console.warn('[Yahoo]',e.message);
+    setHint(ci,'error','Yahoo failed — data may be limited');
+  }
+
+  // FMP
+  let fmpOk=false;
+  try{
+    const f=await fetchFMP(ticker);
+    Object.assign(cos[ci],f);
+    fmpOk=true;
+  }catch(e){
+    if(e.message!=='no-key') console.warn('[FMP]',e.message);
+  }
+
+  if(cos[ci].mktCap&&!cos[ci].fwdMktCap) cos[ci].fwdMktCap=cos[ci].mktCap;
+
+  fetching[ci]=false;
+  setBtnState(ci,false);
+  if(yahooOk&&fmpOk)      setHint(ci,'ok',`${ticker} — fully loaded`);
+  else if(yahooOk&&FMP_KEY==='YOUR_FMP_API_KEY') setHint(ci,'ok',`${ticker} — Yahoo loaded (add FMP key for estimates)`);
+  else if(yahooOk)        setHint(ci,'ok',`${ticker} — Yahoo loaded, FMP failed`);
+  else                    setHint(ci,'error',`${ticker} — fetch failed, enter data manually`);
+  buildInputPanel();
+  buildMetrics();
+}
+
+/* ─────────────────────────────────────────────
+   UI HELPERS
+   ───────────────────────────────────────────── */
+function setHint(ci,type,msg){
+  const el=document.getElementById('hint'+ci);
+  if(el){el.className='ticker-hint '+type;el.textContent=msg;}
+}
+function setBtnState(ci,loading){
+  const btn=document.getElementById('fetchBtn'+ci);
+  if(!btn) return;
+  btn.classList.toggle('loading',loading);
+  btn.textContent=loading?'Loading…':'Fetch';
+}
+
+/* ─────────────────────────────────────────────
+   BUILD INPUT PANEL
+   ───────────────────────────────────────────── */
+function buildInputPanel(){
+  const badge=s=>s==='yahoo'
+    ?'<span class="src-badge src-yahoo">Yahoo</span>'
+    :'<span class="src-badge src-fmp">FMP</span>';
+  let html='';
+  INPUT_GROUPS.forEach(g=>{
+    html+=`<div class="input-section-head">${g.label}</div>`;
+    g.fields.forEach(f=>{
+      html+=`<div class="input-row">
+        <div class="input-label">${badge(f.src)} ${f.label}</div>
+        ${cos.map((c,ci)=>{
+          const v=c[f.key];
+          return `<div class="input-cell c${ci}" id="ic_${ci}_${f.key}">
+            <input type="number" step="${f.step||'1'}" data-ci="${ci}" data-f="${f.key}"
+              value="${v!=null?v:''}" placeholder="—">
+            <div class="spinner"></div>
+          </div>`;
+        }).join('')}
         <div class="input-bench"></div>
       </div>`;
     });
   });
-  document.getElementById('inputPanel').innerHTML = html;
+  document.getElementById('inputPanel').innerHTML=html;
+  // restore spinners for active fetches
+  fetching.forEach((on,ci)=>{
+    if(on) document.querySelectorAll(`.input-cell.c${ci}`).forEach(el=>el.classList.add('fetching'));
+  });
 }
 
-function buildMetrics() {
-  const derived = cos.map(calc);
-  const names = cos.map(c=>c.name);
-
-  let html = `<div class="metrics-section-head"><span class="section-icon"></span>Mandatory Metrics</div>`;
-  html += `<div class="metrics-col-head">
+/* ─────────────────────────────────────────────
+   BUILD METRICS TABLE
+   ───────────────────────────────────────────── */
+function fmtVal(v,fmt){
+  if(v===null||!isFinite(v)) return '—';
+  return fmt==='pct' ? v.toFixed(2)+'%' : v.toFixed(2)+'x';
+}
+function getRanks(vals,lower){
+  const idx=vals.map((v,i)=>({v,i})).filter(x=>x.v!==null&&isFinite(x.v));
+  idx.sort((a,b)=>lower?a.v-b.v:b.v-a.v);
+  const r=vals.map(()=>null);
+  idx.forEach((x,p)=>{r[x.i]=p+1;});
+  return r;
+}
+function buildMetrics(){
+  const derived=cos.map(calc);
+  let html=`<div class="metrics-section-head"><span class="section-icon"></span>Mandatory Metrics</div>`;
+  html+=`<div class="metrics-col-head">
     <div class="mch-spacer">Metric</div>
-    ${cos.map((c,i)=>`<div class="mch-co c${i}" id="mch${i}">${c.name}</div>`).join('')}
+    ${cos.map((c,i)=>`<div class="mch-co c${i}">${c.name||'—'}</div>`).join('')}
     <div class="mch-bench">Benchmark</div>
   </div>`;
-
-  METRIC_GROUPS.forEach((grp, gi) => {
-    html += `<div class="metric-group">
+  METRIC_GROUPS.forEach(grp=>{
+    html+=`<div class="metric-group">
       <div class="metric-group-label">
         <div class="metric-group-label-inner"><span class="group-accent"></span>${grp.label}</div>
-        ${cos.map(()=>'<div></div>').join('')}
-        <div></div>
+        ${cos.map(()=>'<div></div>').join('')}<div></div>
       </div>`;
-    grp.metrics.forEach(m => {
-      const vals = derived.map(d=>d[m.key]);
-      const ranks = getRanks(vals, m.lower!==false);
-      html += `<div class="metric-row">
+    grp.metrics.forEach(m=>{
+      const vals=derived.map(d=>d[m.key]);
+      const ranks=getRanks(vals,m.lower!==false);
+      html+=`<div class="metric-row">
         <div class="metric-label">${m.label}</div>
         ${vals.map((v,i)=>{
-          const r = ranks[i];
-          const cls = r===null ? 'rank-null' : `rank-${r}`;
-          return `<div class="metric-val ${cls}">${fmtVal(v,m.fmt)}</div>`;
+          const r=ranks[i];
+          const cls=r===null?'rank-null':'rank-'+r;
+          const inner=fetching[i]?'<div class="val-spinner"></div>':fmtVal(v,m.fmt);
+          return `<div class="metric-val ${cls}">${inner}</div>`;
         }).join('')}
         <div class="metric-bench">${BENCHMARKS[m.key]||''}</div>
       </div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   });
-
-  document.getElementById('metricsWrap').innerHTML = html;
+  document.getElementById('metricsWrap').innerHTML=html;
 }
 
-function updateColHeaders() {
-  cos.forEach((c,i)=>{
-    const el = document.getElementById(`mch${i}`);
-    if(el) el.textContent = c.name;
-  });
+/* ─────────────────────────────────────────────
+   EVENTS
+   ───────────────────────────────────────────── */
+for(let ci=0;ci<3;ci++){
+  (function(i){
+    document.getElementById('ticker'+i).addEventListener('keydown',e=>{
+      if(e.key==='Enter') doFetch(i,e.target.value);
+    });
+    document.getElementById('fetchBtn'+i).addEventListener('click',()=>{
+      doFetch(i,document.getElementById('ticker'+i).value);
+    });
+  })(ci);
 }
 
-function render() {
-  buildMetrics();
-  updateColHeaders();
-}
-
-document.addEventListener('input', e => {
-  const el = e.target, ci = el.dataset.ci, f = el.dataset.f;
-  if(ci!==undefined && f) {
-    if(f==='name') {
-      cos[+ci].name = el.value;
-      // update co-header inputs too
-      document.querySelectorAll(`.co-name[data-ci="${ci}"]`).forEach(inp=>{ if(inp!==el) inp.value=el.value; });
-    } else {
-      cos[+ci][f] = parseFloat(el.value)||0;
-    }
-    render();
+document.addEventListener('input',e=>{
+  const el=e.target,ci=el.dataset.ci,f=el.dataset.f;
+  if(ci!==undefined&&f){
+    cos[+ci][f]=el.value!==''?parseFloat(el.value):null;
+    buildMetrics();
   }
 });
 
+document.getElementById('fmpKeyInput').addEventListener('input',e=>{
+  const v=e.target.value.trim();
+  if(v.length>8){
+    FMP_KEY=v;
+    const ok=document.getElementById('apiKeyOk');
+    ok.style.display='inline';
+    setTimeout(()=>{ok.style.display='none';},2500);
+  }
+});
+
+// If key is hardcoded, hide the notice
+if(FMP_KEY!=='YOUR_FMP_API_KEY'){
+  document.getElementById('fmpKeyInput').value=FMP_KEY;
+  document.getElementById('apiNotice').style.display='none';
+}
+
+/* ─────────────────────────────────────────────
+   INIT
+   ───────────────────────────────────────────── */
 buildInputPanel();
-render();
+buildMetrics();
 </script>
 </body>
 </html>
